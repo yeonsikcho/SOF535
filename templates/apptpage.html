@@ -8,51 +8,153 @@
     <!-- Bootstrap CSS and Javascript-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
-    <title>Hello, world!</title>
+    <!-- JQuery -->
+    <script  src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="  crossorigin="anonymous"></script>
+    <title>SOF535 Eric Cho Assignment</title>
+    <style>
+        #dropdownMenuButton1 {
+            width: 100%;
+            text-align: left;
+            border: 1px solid #ced4da;
+        }
+    </style>
   </head>
   <body>
     <div class="container">
-    <h1>Hospital Appointment Page (Eric Cho Stratford 2021M3 SOF535)</h1>
-<div class="col-md-6">
-    <div class="form-group">
-        <label for="inputEmail3" class="col-sm-2 control-label">Name</label>
-        <div class="col-sm-10">
-            <input type="text" class="form-control" id="Name" placeholder="Name">
+        <h1>Hospital Appointment Page (Eric Cho Stratford 2021M3 SOF535)</h1>
+        <div class = "row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">First Name</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="first_name" placeholder="First Name">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputPassword3" class="col-sm-2 control-label">Date of Birth</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="dob" placeholder="YYYY-MM-DD">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputPassword3" class="col-sm-2 control-label">Date</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="appt_date" placeholder="YYYY-MM-DD">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputPassword3" class="col-sm-2 control-label">Email</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="email" placeholder="johndoe@gmail.com">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">Last Name</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="last_name" placeholder="Last Name">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputPassword3" class="col-sm-2 control-label">Select Doctor</label>
+                <div class="col-sm-10">
+                    <select class="form-select" id="doctor_selection">
+                        <option selected>Select from List</option>
+                        <option value="1">Dr. Eric Cho</option>
+                        <option value="2">Dr. Ben Smith</option>
+                        <option value="3">Dr. John Doe</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputPassword3" class="col-sm-2 control-label">Time</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="appt_time" placeholder="HH:MM (ex. 16:20)">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputPassword3" class="col-sm-2 control-label">Phone.no</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="phone_no" placeholder="123-456-7890">
+                </div>
+            </div>
         </div>
     </div>
-    <div class="form-group">
-        <label for="inputPassword3" class="col-sm-2 control-label">Address</label>
-        <div class="col-sm-10">
-            <input type="text" class="form-control" id="Address" placeholder="Address">
-        </div>
+    <button style="margin-top:10px" class="btn btn-primary" onclick="submit_appointment()">Make Appointment</button>
     </div>
-</div>
-<div class="col-md-6">
-    <div class="form-group">
-        <label for="inputEmail3" class="col-sm-2 control-label">City</label>
-        <div class="col-sm-10">
-            <input type="text" class="form-control" id="City" placeholder="City">
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="inputPassword3" class="col-sm-2 control-label">Country</label>
-        <div class="col-sm-10">
-            <input type="text" class="form-control" id="Country" placeholder="Country">
-        </div>
-    </div>
-</div>
-    </div>
-   
+    <script>
+        Date.prototype.isValid = function () {
+            // Function to check whether a date is valid
+            return this.getTime() === this.getTime();
+        };  
+        check_date = function (date_str){
+            //First checks whether date is in YYYY-MM-DD format then invokes is valid function
+            var re = /^[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]$/;
+            var d = new Date(date_str);
+            return date_str != null && date_str.match(re) == null ? false : d.isValid();
+        }
 
-    <!-- Optional JavaScript; choose one of the two! -->
+        submit_appointment = function(){
+            appointment_data = {
+                first_name:$("#first_name").val(),
+                last_name:$("#last_name").val(),
+                dob:$("#dob").val(),
+                doctor_selection:$("#doctor_selection").val(),
+                appt_date:$("#appt_date").val(),
+                appt_time:$("#appt_time").val(),
+                email:$("#email").val(),
+                phone_no:$("#phone_no").val()
+            }
+            //Data Validations
+            if (!check_date(appointment_data.dob)){
+                alert('Date of Birth Error.');
+                return;
+            }
+            if (!check_date(appointment_data.appt_date)){
+                alert('Appointment Date Error.');
+                return;
+            }
+            var re = /^[0-9][0-9]:[0-9][0-9]$/;
+            if (appointment_data.appt_time != null && appointment_data.appt_time.match(re) == null){
+                alert('Appointment Time Error');
+                return;
+            }
+            if (!['00','15','30','45'].includes(appointment_data.appt_time.substring(3,5))){
+                alert('Appointment Time has to be in 15 minute increments (00, 15, 30, 45)')
+                return;
+            }
+            if (appointment_data.doctor_selection == 'Select from List'){
+                alert('Please select a doctor');
+                return;
+            }
+            var re = /^\S+@\S+$/;
+            if (appointment_data.email != null && appointment_data.email.match(re) == null){
+                alert('Please enter valid email');
+                return;
+            }
+            var re = /^[0-9][0-9][0-9]-[0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]$/;
+            if (appointment_data.phone_no != null && appointment_data.phone_no.match(re) == null){
+                alert('Please emter valid phone no');
+                return;
+            }
+            if (appointment_data.first_name=='' | appointment_data.last_name == ''){
+                alert('Please fill out first and last names');
+                return;
+            }
 
-    <!-- Option 1: Bootstrap Bundle with Popper -->
-
-
-    <!-- Option 2: Separate Popper and Bootstrap JS -->
-    <!--
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
-    -->
+            if (!check_date(appointment_data.dob)){
+                alert('Date of Birth Error.')
+                return;
+            }
+            $.ajax({
+                url: "/make_appointment/",
+                data: {'data': JSON.stringify(appointment_data)},
+                dataType: 'json',
+                success: function (data) {
+                    alert(data.msg);
+        	}})
+        }
+    </script>
   </body>
 </html>

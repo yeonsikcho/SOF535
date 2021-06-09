@@ -20,4 +20,5 @@ from hospitalappt import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.loadmain),
+    path('make_appointment/', views.make_appointments),
 ]
