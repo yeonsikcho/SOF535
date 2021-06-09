@@ -12,3 +12,5 @@ The main files in this code-base are as follows.
 `hospitalappt/views.py` - This page contains backend handling of patient data submitted from the frontend. This file also contains the class objects for Person, Patient, Patients, and Doctors for fulfillment of objected-oriented programming for this course.
 
 To run this on local machine, `python3` should be installed and `django` should be installed as well. Once inside the project folder `python manage.py runserver` can be executed to run the application on `127.0.0.1:8000` 
+
+The live instance is currently deployed on http://stratford.eric-cho.com/
