@@ -2,13 +2,31 @@ from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 import datetime
 import json
-
+from neo4j_module import *
 
 def loadmain(request):
     return render(request, 'apptpage.html')
 
+doctor_names = {'1':'Eric Cho','2':'Ben Smith','3':'John Doe'}
 
 def make_appointments(request):
+    data = json.loads(request.GET.get('data'))
+    first_name, last_name, dob, email, phone_no, appt_date, appt_time = [data[k] for k in ['first_name','last_name','dob','email','phone_no','appt_date','appt_time']]
+    doctor_name = doctor_names[data['doctor_selection']]
+    if not patient_exists(first_name, last_name): create_patient(first_name, last_name, dob, email, phone_no)
+    if not appointment_available(doctor_name, appt_date, appt_time): msg = "Requested Date/Time is not available for Dr. "+doctor_name
+    else:
+        create_appointment(first_name + " "+last_name, doctor_name, appt_date, appt_time)
+        msg = f"""Appointment Booked Successfully for Dr. {doctor_name}
+Patient Name:{first_name} {last_name}
+Doctor Phone No:{phone_no}
+Appointment Time: {appt_date} {appt_time}
+        """
+    return JsonResponse({'msg': msg})
+
+# Data for Appt Availabilities and Patient Information are stored in class format
+# (normally I would store it in databases, but since this is objected oriented programming class, class structure is used)
+def make_appointments_old(request):
     data = json.loads(request.GET.get('data'))
     patient_id = patients.get_id_by_name(data['first_name'], data['last_name'])
     if patient_id is None:
@@ -17,8 +35,6 @@ def make_appointments(request):
     _, msg = doctors[data['doctor_selection']].make_appointment(
         data['appt_date'], data['appt_time'], patient_id)
     return JsonResponse({'msg': msg})
-# Data for Appt Availabilities and Patient Information are stored in class format
-# (normally I would store it in databases, but since this is objected oriented programming class, class structure is used)
 
 
 class Person():
